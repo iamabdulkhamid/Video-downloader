@@ -1,2 +1,2 @@
 #!/bin/bash
-gunicorn -b 0.0.0.0:$PORT bot:app
+gunicorn -b 0.0.0.0:$PORT main:app
