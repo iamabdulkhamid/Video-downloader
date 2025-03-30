@@ -8,10 +8,13 @@ app = Flask(__name__)
 
 # Telegram bot tokeni
 TELEGRAM_TOKEN = os.getenv("Telegramtoken")
+if not TELEGRAM_TOKEN:
+    raise ValueError("Telegram bot tokeni topilmadi! Environment variable-ni tekshiring.")
+
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 # Webhook URL
-WEBHOOK_URL = os.getenv("WEBHOOK_URL", "https://telegram-instagram-bot.onrender.com/") + "/" + TELEGRAM_TOKEN
+WEBHOOK_URL = os.getenv("WEBHOOK_URL", "https://telegram-instagram-bot.onrender.com").rstrip("/") + f"/{TELEGRAM_TOKEN}"
 
 # Instagram videolarni yuklab oluvchi funksiya
 def download_instagram_video(url):
@@ -54,8 +57,8 @@ def webhook():
 @app.route('/set_webhook')
 def set_webhook():
     bot.remove_webhook()
-    bot.set_webhook(url=WEBHOOK_URL)
-    return "Webhook o‘rnatildi!", 200
+    success = bot.set_webhook(url=WEBHOOK_URL)
+    return f"Webhook o‘rnatildi! Status: {success}", 200
 
 # Bosh sahifa
 @app.route('/')
@@ -64,7 +67,9 @@ def home():
 
 if __name__ == "__main__":
     bot.remove_webhook()
-    bot.set_webhook(url=WEBHOOK_URL)
+    success = bot.set_webhook(url=WEBHOOK_URL)
+    if not success:
+        print("Webhook o‘rnatilmadi! Telegram API bilan bog‘lanishda muammo bo‘lishi mumkin.")
     
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
