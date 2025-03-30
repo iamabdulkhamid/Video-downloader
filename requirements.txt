@@ -1,0 +1,4 @@
+flask
+telebot
+yt-dlp
+gunicorn
