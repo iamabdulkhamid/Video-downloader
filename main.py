@@ -6,7 +6,7 @@ from flask import Flask, request
 app = Flask(__name__)
 
 # Token va webhook URL (qo'lda kiritilgan)
-TELEGRAM_TOKEN = "7837746713:AAGjsO0g9lbLWRqTe3O7Gg3jhrQUVhyM64Q"
+TELEGRAM_TOKEN = "7472815918:AAFRyj_zslspydBEz0NJv9Sq-xFsrgKsl4Q"
 WEBHOOK_URL = "https://video-downloader-akb8.onrender.com/" + TELEGRAM_TOKEN
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
